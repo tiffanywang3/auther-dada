@@ -15,6 +15,14 @@ router.param('id', function (req, res, next, id) {
 	})
 	.then(null, next);
 });
+router.use(function(req, res, next){
+	console.log("req.user", req.user)
+	if(req.user._id === req.requestedUser.id) {
+		next();
+	} else{
+		throw HttpError(404);
+	}
+})
 
 router.get('/', function (req, res, next) {
 	User.find({}).exec()
